@@ -22,18 +22,5 @@ func _process(delta):
 		vector.x = 1
 	if Input.is_action_pressed("ui_left"):
 		vector.x = -1
-	look_at(ScreenPointToRay(), Vector3.UP)
 	move_and_slide(Vector3(vector.x * 10 , -(delta * gravity), vector.y * 10) )
 	pass
-
-func ScreenPointToRay():
-	var spaceState = get_world().direct_space_state
-	
-	var mousePos = get_viewport().get_mouse_position()
-	var camera = get_tree().root.get_camera()
-	var rayOrigin = camera.project_ray_origin(mousePos)
-	var rayEnd = rayOrigin + camera.project_ray_normal(mousePos) * 2000
-	var rayArray = spaceState.intersect_ray(rayOrigin, rayEnd)
-	if rayArray.has("position"):
-		return rayArray["position"]
-	return Vector3()
